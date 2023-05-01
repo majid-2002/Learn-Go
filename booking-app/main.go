@@ -42,7 +42,7 @@ func main() {
 		bookings = append(bookings, userName)
 
 		// fmt.Printf("the whole slice : %v\n", bookings)
-		// fmt.Printf("the first valu : %v\n", bookings[0])
+		// fmt.Printf("the first value : %v\n", bookings[0])
 		// fmt.Printf("Slice type : %T\n", bookings)
 		// fmt.Printf("Slice length : %v\n", len(bookings))
 
@@ -57,6 +57,11 @@ func main() {
 		}
 
 		fmt.Println("These are all the bookings", firstNames)
+
+		if remainingTickets == 0 {
+			fmt.Println("Sorry, our tickets are sold out. Come back next year.")
+			break
+		}
 	}
 
 }
