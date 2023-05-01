@@ -6,64 +6,64 @@ import (
 )
 
 func main() {
-	var conferenceName string = "Go conference"
-	const conferenceTickets int = 50
-	remainingTickets := 50    // syntatic sugar
-	var bookings = []string{} //? this is a slice. A slice is just like an array but like a dynamic size array
+	conferenceName := "Go conference"
+	const conferenceTickets = 50
+	remainingTickets := conferenceTickets
+	var bookings []string
 
 	fmt.Printf("Welcome to %v booking application\n", conferenceName)
-	fmt.Println("We have total of", conferenceTickets, "tickets and the remaining tickets are", remainingTickets)
+	fmt.Printf("We have total of %v tickets and the remaining tickets are %v\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets to attend..")
 
-	for {
-		var firstName string
-		var lastName string
+	for remainingTickets > 0 {
+		var firstName, lastName, userEmail string
 		var userTickets int
-		var userEmail string
 
-		fmt.Println("\nEnter your first name")
+		fmt.Print("\nEnter your first name: ")
 		fmt.Scan(&firstName)
 
-		fmt.Println("Enter your last name")
+		fmt.Print("Enter your last name: ")
 		fmt.Scan(&lastName)
 
-		fmt.Println("Enter your email")
+		fmt.Print("Enter your email: ")
 		fmt.Scan(&userEmail)
 
-		fmt.Println("Enter the number of tickets you want to book")
+		fmt.Print("Enter the number of tickets you want to book: ")
 		fmt.Scan(&userTickets)
 
-		// check if the user typed in a number or not
-		if userTickets == 0 {
-			fmt.Println("Please enter a valid number..!")
-			continue //? this will skip the rest of the code and go back to the start of the loop
-		} else if userTickets > remainingTickets {
-			fmt.Println("Sorry, we don't have that many tickets left. remaining tickets are", remainingTickets)
+		if len(firstName) < 2 || len(lastName) < 2 {
+			fmt.Println("Please enter a valid name..!")
 			continue
 		}
 
-		var userName string = firstName + " " + lastName
-		remainingTickets -= userTickets
+		if !strings.Contains(userEmail, "@") || !strings.Contains(userEmail, ".com") {
+			fmt.Println("Please enter a valid email..!")
+			continue
+		}
 
-		//? this is how we add a new item to the slice by using the append method in go lang
+		if userTickets == 0 {
+			fmt.Println("Please enter a valid number..!")
+			continue
+		}
+
+		if userTickets > remainingTickets {
+			fmt.Printf("Sorry, we don't have that many tickets left. Remaining tickets are %v\n", remainingTickets)
+			continue
+		}
+
+		userName := firstName + " " + lastName
+		remainingTickets -= userTickets
 		bookings = append(bookings, userName)
 
-		fmt.Printf("Thank you %v for booking %v tickets. You will recieve a confirmation email at %v\n", userName, userTickets, userEmail)
-		fmt.Println("Remaining tickets are", remainingTickets)
+		fmt.Printf("Thank you %v for booking %v tickets. You will receive a confirmation email at %v\n", userName, userTickets, userEmail)
+		fmt.Printf("Remaining tickets are %v\n", remainingTickets)
 
-		var firstNames = []string{}
-
+		var firstNames []string
 		for _, value := range bookings {
-			var names = strings.Fields(value)
-			firstNames = append(firstNames, names[0])
+			firstNames = append(firstNames, strings.Fields(value)[0])
 		}
-
-		fmt.Println("These are all the bookings", firstNames)
-
-		if remainingTickets == 0 {
-			fmt.Println("Our tickets are sold out. Come back next year.")
-			break
-		}
+		fmt.Printf("These are all the bookings: %v\n", firstNames)
 	}
 
+	fmt.Println("Our tickets are sold out. Come back next year.")
 }
