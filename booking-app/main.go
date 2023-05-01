@@ -1,6 +1,7 @@
 package main
 
 import (
+	"booking-app/helper"
 	"fmt"
 	"strings"
 )
@@ -11,6 +12,8 @@ const conferenceTickets = 50
 var conferenceName = "Go conference"
 var remainingTickets = conferenceTickets
 var bookings []string
+
+
 
 // ? main function
 func main() {
@@ -25,7 +28,7 @@ func main() {
 		firstName, lastName, userEmail, userTickets = getUserInput()
 
 		//? book the tickets
-		if validateUserInputs(firstName, lastName, userEmail, userTickets) {
+		if helper.ValidateUserInputs(firstName, lastName, userEmail, userTickets, remainingTickets) {
 			bookTicket(firstName, lastName, userEmail, userTickets)
 		}
 	}
@@ -33,9 +36,6 @@ func main() {
 	fmt.Println("Our tickets are sold out. Come back next year.")
 
 }
-
-
-
 
 // ? functions
 func greetUser() {
@@ -50,29 +50,6 @@ func getFirstNames() []string {
 		firstNames = append(firstNames, strings.Fields(value)[0])
 	}
 	return firstNames
-}
-
-func validateUserInputs(firstName string, lastName string, userEmail string, userTickets int) bool {
-	if len(firstName) < 2 || len(lastName) < 2 {
-		fmt.Println("Please enter a valid name..!")
-		return false
-	}
-
-	if !strings.Contains(userEmail, "@") || !strings.Contains(userEmail, ".com") {
-		fmt.Println("Please enter a valid email..!")
-		return false
-	}
-
-	if userTickets == 0 {
-		fmt.Println("Please enter a valid number..!")
-		return false
-	}
-
-	if userTickets > remainingTickets {
-		fmt.Printf("Sorry, we don't have that many tickets left. Remaining tickets are %v\n", remainingTickets)
-		return false
-	}
-	return true
 }
 
 func getUserInput() (string, string, string, int) {
