@@ -16,13 +16,12 @@ func main() {
 	fmt.Println("Get your tickets to attend..")
 
 	for {
-
 		var firstName string
 		var lastName string
 		var userTickets int
 		var userEmail string
 
-		fmt.Println("Enter your first name")
+		fmt.Println("\nEnter your first name")
 		fmt.Scan(&firstName)
 
 		fmt.Println("Enter your last name")
@@ -34,17 +33,20 @@ func main() {
 		fmt.Println("Enter the number of tickets you want to book")
 		fmt.Scan(&userTickets)
 
-		var userName string = firstName + " " + lastName
+		// check if the user typed in a number or not
+		if userTickets == 0 {
+			fmt.Println("Please enter a valid number..!")
+			continue //? this will skip the rest of the code and go back to the start of the loop
+		} else if userTickets > remainingTickets {
+			fmt.Println("Sorry, we don't have that many tickets left. remaining tickets are", remainingTickets)
+			continue
+		}
 
+		var userName string = firstName + " " + lastName
 		remainingTickets -= userTickets
 
 		//? this is how we add a new item to the slice by using the append method in go lang
 		bookings = append(bookings, userName)
-
-		// fmt.Printf("the whole slice : %v\n", bookings)
-		// fmt.Printf("the first value : %v\n", bookings[0])
-		// fmt.Printf("Slice type : %T\n", bookings)
-		// fmt.Printf("Slice length : %v\n", len(bookings))
 
 		fmt.Printf("Thank you %v for booking %v tickets. You will recieve a confirmation email at %v\n", userName, userTickets, userEmail)
 		fmt.Println("Remaining tickets are", remainingTickets)
@@ -59,7 +61,7 @@ func main() {
 		fmt.Println("These are all the bookings", firstNames)
 
 		if remainingTickets == 0 {
-			fmt.Println("Sorry, our tickets are sold out. Come back next year.")
+			fmt.Println("Our tickets are sold out. Come back next year.")
 			break
 		}
 	}
