@@ -1,9 +1,8 @@
 package main
 
 import (
-	"booking-app/helper"
 	"fmt"
-	"strings"
+	"strconv"
 )
 
 // ? package level variables
@@ -11,9 +10,7 @@ const conferenceTickets = 50
 
 var conferenceName = "Go conference"
 var remainingTickets = conferenceTickets
-var bookings []string
-
-
+var bookings = make([]map[string]string, 0)
 
 // ? main function
 func main() {
@@ -28,7 +25,7 @@ func main() {
 		firstName, lastName, userEmail, userTickets = getUserInput()
 
 		//? book the tickets
-		if helper.ValidateUserInputs(firstName, lastName, userEmail, userTickets, remainingTickets) {
+		if validateUserInputs(firstName, lastName, userEmail, userTickets, remainingTickets) {
 			bookTicket(firstName, lastName, userEmail, userTickets)
 		}
 	}
@@ -47,7 +44,7 @@ func greetUser() {
 func getFirstNames() []string {
 	var firstNames []string
 	for _, value := range bookings {
-		firstNames = append(firstNames, strings.Fields(value)[0])
+		firstNames = append(firstNames, value["firstName"])
 	}
 	return firstNames
 }
@@ -74,7 +71,18 @@ func getUserInput() (string, string, string, int) {
 func bookTicket(firstName, lastName, userEmail string, userTickets int) {
 	userName := firstName + " " + lastName
 	remainingTickets -= userTickets
-	bookings = append(bookings, userName)
+
+	//syntax : var a = make(map[KeyType]ValueType)
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = userEmail
+	userData["tickets"] = strconv.FormatInt(int64(userTickets), 10)
+
+	//? append the map to the slice
+
+	bookings = append(bookings, userData)
+	fmt.Printf("List of bookings: %v\n", bookings)
 
 	fmt.Printf("Thank you %v for booking %v tickets. You will receive a confirmation email at %v\n", userName, userTickets, userEmail)
 	fmt.Printf("Remaining tickets are %v\n", remainingTickets)

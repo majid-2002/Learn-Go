@@ -1,4 +1,4 @@
-package helper
+package main
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 
 
 //Capitalize the func header to export it 
-func ValidateUserInputs(firstName string, lastName string, userEmail string, userTickets int, remainingTickets int) bool {
+func validateUserInputs(firstName string, lastName string, userEmail string, userTickets int, remainingTickets int) bool {
 	if len(firstName) < 2 || len(lastName) < 2 {
 		fmt.Println("Please enter a valid name..!")
 		return false
