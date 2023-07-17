@@ -15,14 +15,15 @@ type Book struct {
 }
 
 func init() {
-	config.Connect()
-	db = config.GetDB()
-	db.AutoMigrate(&Book{})
+	config.Connect() //? connect to the database
+	db = config.GetDB() 
+	db.AutoMigrate(&Book{}) //? make the table of the Book struct in the database
 }
 
+//? these are the functions that we will use in our controllers to perform CRUD operations on our database using GORM
 func (b *Book) CreateBook() *Book {
 	db.NewRecord(b)
-	db.Create(&b)
+	db.Create(&b) 
 	return b
 }
 
@@ -34,7 +35,7 @@ func GetAllBooks() []Book {
 
 func GetBookById(Id int64) (*Book, *gorm.DB) {
 	var getBook Book
-	db := db.Where("ID=?", Id).Find(&getBook)
+	db := db.Where("ID=?", Id).Find(&getBook) 
 	return &getBook, db
 }
 

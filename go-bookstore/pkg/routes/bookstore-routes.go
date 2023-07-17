@@ -13,3 +13,4 @@ var RegisterBookStoreRoutes = func(router *mux.Router) {
 	router.HandleFunc("/api/books/{bookId}", controllers.UpdateBook).Methods(http.MethodPut)
 	router.HandleFunc("/api/books/{bookId}", controllers.DeleteBook).Methods(http.MethodDelete)
 }
+ 
