@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"time"
 	"sync"
+	"time"
 )
 
 // ? package level variables
@@ -11,7 +11,7 @@ const conferenceTickets = 50
 
 var conferenceName = "Go conference"
 var remainingTickets = conferenceTickets
-var bookings = make([]UserData, 0)
+var bookings = make([]UserData, 0) 
 
 type UserData struct {
 	firstName string
@@ -20,17 +20,13 @@ type UserData struct {
 	tickets   int
 }
 
-//? add waitgroup
-var wg =  sync.WaitGroup{}
-
-
+// ? add waitgroup
+var wg = sync.WaitGroup{}
 
 // ? main function
 func main() {
-
 	greetUser()
-
-	for remainingTickets > 0 {
+	for remainingTickets > 0 { //? loop until the tickets are sold out
 		var firstName, lastName, userEmail string
 		var userTickets int
 
@@ -41,16 +37,16 @@ func main() {
 		if validateUserInputs(firstName, lastName, userEmail, userTickets, remainingTickets) {
 			bookTicket(firstName, lastName, userEmail, userTickets)
 			wg.Add(1)
-			go sendTicket(firstName, lastName, userTickets, userEmail)
+			go sendTicket(firstName, lastName, userTickets, userEmail) //? go routine to send the ticket in the background while the user can book more tickets
 		}
 		wg.Wait()
 	}
-
 	fmt.Println("Our tickets are sold out. Come back next year.")
-
 }
 
-// ? functions
+//* Functions
+
+// ? Greets the user and displays the remaining tickets
 func greetUser() {
 	fmt.Printf("Welcome to %v booking application\n", conferenceName)
 	fmt.Printf("We have total of %v tickets and the remaining tickets are %v\n", conferenceTickets, remainingTickets)
@@ -60,26 +56,34 @@ func greetUser() {
 func getFirstNames() []string {
 	var firstNames []string
 	for _, value := range bookings {
-		firstNames = append(firstNames, value.firstName)
+		firstNames = append(firstNames, value.firstName) //? here value is the struct and we are accessing the firstName field
 	}
 	return firstNames
 }
 
 func getUserInput() (string, string, string, int) {
-	var firstName, lastName, userEmail string
-	var userTickets int
+	var (
+		firstName   string
+		lastName    string
+		userEmail   string
+		userTickets int
+	)
 
-	fmt.Print("\nEnter your first name: ")
-	fmt.Scan(&firstName)
+	prompts := map[string]interface{}{  
+		"Enter your first name: ":                        &firstName,
+		"Enter your last name: ":                         &lastName,
+		"Enter your email: ":                             &userEmail,
+		"Enter the number of tickets you want to book: ": &userTickets,
+	}
 
-	fmt.Print("Enter your last name: ")
-	fmt.Scan(&lastName)
+	//? range over the map the key and value are returned
+	for prompt, variable := range prompts {
+		fmt.Print(prompt)
+		fmt.Scan(variable)
+		// Consume the newline character
+		fmt.Scanln()
 
-	fmt.Print("Enter your email: ")
-	fmt.Scan(&userEmail)
-
-	fmt.Print("Enter the number of tickets you want to book: ")
-	fmt.Scan(&userTickets)
+	}
 
 	return firstName, lastName, userEmail, userTickets
 }
@@ -88,7 +92,7 @@ func bookTicket(firstName, lastName, userEmail string, userTickets int) {
 	userName := firstName + " " + lastName
 	remainingTickets -= userTickets
 
-	//syntax : var a = make(map[KeyType]ValueType)
+	// syntax : var a = make(map[KeyType]ValueType)
 	var userData = UserData{
 		firstName: firstName,
 		lastName:  lastName,
@@ -113,3 +117,9 @@ func sendTicket(firstName string, lastName string, userTickets int, userEmail st
 	fmt.Println("###############")
 	wg.Done()
 }
+
+
+//? to import a function from another package we use import "<modulename>/<packagename>"
+//? let's say we import the helper function in helper package then we would use import "booking-app/helper"
+//? then to use the function in the pkg we use helper.ValidateUserInput()  
+//? like this we can import any files from different package and manage our code.

@@ -29,3 +29,9 @@ func validateUserInputs(firstName string, lastName string, userEmail string, use
 	}
 	return true
 }
+
+
+
+//? for exporting a function capitalize the first letter. 
+//? let's say if the helper function was in the helper/helper.go then we would need to export it like this 
+//? func ValidateUserInputs() - V capitalized. for exporting.

@@ -7,21 +7,24 @@ import (
 )
 
 func formHandler(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
+	if err := r.ParseForm();  //? parse the form from the request.
+
+	err != nil {
 		fmt.Fprintf(w, "ParseForm() err: %v", err)
 		return
 	}
 
 	fmt.Fprintf(w, "Post request successful!\n")
 
-	name := r.FormValue("name")
-	address := r.FormValue("address")
+	name := r.FormValue("name") //? get the name from form
+	address := r.FormValue("address") //? get the address from the form
 
 	fmt.Fprintf(w, "Name = %s\n", name)
 	fmt.Fprintf(w, "Address = %s\n", address)
 }
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
+func helloHandler(w http.ResponseWriter, r *http.Request) { //? w response, r request
+
 	if r.URL.Path != "/hello" {
 		http.Error(w, "404 not found.", http.StatusNotFound)
 		return
@@ -46,7 +49,9 @@ func main() {
 	fmt.Printf("Starting server at port 8080\n")
 
 	//? Listening to port 8080
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(":8080", nil); 
+	
+	err != nil {
 		log.Fatal(err)
 	}
 
