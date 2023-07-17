@@ -17,7 +17,7 @@ var NewBook models.Book //? create a new book variable of type Book from the mod
 func GetBook(w http.ResponseWriter, r *http.Request) {
 	newBooks := models.GetAllBooks() //? get all books from the models package
 	
-	res, _ := json.Marshal(newBooks) //? convert the books to json
+	res, _ := json.Marshal(newBooks) //? convert the books to json that we get from the sql database
 
 	w.Header().Set("Content-Type", "pkglication/json") //? set the header to json
 
@@ -40,9 +40,9 @@ func GetBookById(w http.ResponseWriter, r *http.Request) {
 
 	bookDetails, _ := models.GetBookById(ID) //? get the book by id from the models package
 
-	res, _ := json.Marshal(bookDetails) //? convert the book to json
+	res, _ := json.Marshal(bookDetails) //? convert the book to json that we get from the sql database
 
-	w.Header().Set("Content-Type", "pkglication/json") //? set the header to json
+	w.Header().Set("Content-Type", "application/json") //? set the header to json
 
 	w.WriteHeader(http.StatusOK) //? set the status to ok
 
@@ -80,7 +80,7 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 
 	res, _ := json.Marshal(book) //? convert the book to json
 
-	w.Header().Set("Content-Type", "pkglication/json") //? set the header to json
+	w.Header().Set("Content-Type", "application/json") //? set the header to json
 
 	w.WriteHeader(http.StatusOK) //? set the status to ok
 
@@ -122,7 +122,7 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 
 	res, _ := json.Marshal(bookDetails) //? convert the book to json
 
-	w.Header().Set("Content-Type", "pkglication/json") //? set the header to json
+	w.Header().Set("Content-Type", "application/json") //? set the header to json
 
 	w.WriteHeader(http.StatusOK) //? set the status to ok
 
